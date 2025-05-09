@@ -13,11 +13,15 @@ import {
 } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
+import PhoneIcon from '@mui/icons-material/Phone';
+import EmailIcon from '@mui/icons-material/Email';
 
 const Login = () => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
@@ -43,18 +47,20 @@ const Login = () => {
 
   const handleRegister = (e) => {
     e.preventDefault();
-    if (!username || !password) {
-      setError('Please enter both username and password.');
+    if (!username || !password || !email || !phone) {
+      setError('Please fill in all fields.');
       return;
     }
 
-    const user = { username, password };
+    const user = { username, password, email, phone };
     localStorage.setItem('user', JSON.stringify(user));
     setError('');
     alert('Registration successful! You can now log in.');
     setIsRegistering(false);
     setUsername('');
     setPassword('');
+    setEmail('');
+    setPhone('');
   };
 
   return (
@@ -149,6 +155,76 @@ const Login = () => {
               sx: { color: '#fbe106' },
             }}
           />
+
+          {/* Show additional fields only during registration */}
+          {isRegistering && (
+            <>
+              <TextField
+                label="Email"
+                type="email"
+                fullWidth
+                margin="normal"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <EmailIcon sx={{ color: '#fbe106' }} />
+                    </InputAdornment>
+                  ),
+                  sx: {
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                    borderRadius: 2,
+                    input: { color: '#fff' },
+                    transition: 'box-shadow 0.3s',
+                    '&:focus-within': {
+                      boxShadow: '0 0 8px rgba(251, 225, 6, 0.6)',
+                    },
+                  },
+                }}
+                InputLabelProps={{
+                  sx: { color: '#fbe106' },
+                }}
+              />
+              <TextField
+                label="Phone Number"
+                type="tel"
+                fullWidth
+                margin="normal"
+                value={phone}
+                onChange={(e) => {
+                  const value = e.target.value.replace(/\D/g, ''); // removes non-numeric chars
+                  if (value.length <= 10) {
+                    setPhone(value);
+                  }
+                }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <PhoneIcon sx={{ color: '#fbe106' }} />
+                    </InputAdornment>
+                  ),
+                  sx: {
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                    borderRadius: 2,
+                    input: { color: '#fff' },
+                    transition: 'box-shadow 0.3s',
+                    '&:focus-within': {
+                      boxShadow: '0 0 8px rgba(251, 225, 6, 0.6)',
+                    },
+                  },
+                  inputProps: {
+                    maxLength: 10, 
+                  },
+                }}
+                InputLabelProps={{
+                  sx: { color: '#fbe106' },
+                }}
+              />
+
+            </>
+          )}
+
           {error && (
             <Typography color="error" sx={{ mt: 1 }}>
               {error}
@@ -156,22 +232,24 @@ const Login = () => {
           )}
 
           {/* Remember Me Checkbox */}
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-                sx={{
-                  color: '#fbe106',
-                  '&.Mui-checked': {
+          {!isRegistering && (
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  sx={{
                     color: '#fbe106',
-                  },
-                }}
-              />
-            }
-            label="Remember Me"
-            sx={{ color: '#fff', textAlign: 'left', mt: 1 }}
-          />
+                    '&.Mui-checked': {
+                      color: '#fbe106',
+                    },
+                  }}
+                />
+              }
+              label="Remember Me"
+              sx={{ color: '#fff', textAlign: 'left', mt: 1 }}
+            />
+          )}
 
           <Box sx={{ mt: 2 }}>
             <Button

@@ -73,7 +73,7 @@ const Navbar = ({ onSearch, toggleMode, mode }) => {
           <Typography
             variant="h6"
             component={Link}
-            to="/"
+            to="/home"
             sx={{
               textDecoration: 'none',
               color: 'inherit',
@@ -233,7 +233,7 @@ const Navbar = ({ onSearch, toggleMode, mode }) => {
         </Box>
         <Divider sx={{ borderColor: 'rgba(255,255,255,0.3)' }} />
         <List>
-          <ListItem button component={Link} to="/" onClick={() => setDrawerOpen(false)}>
+          <ListItem button component={Link} to="/home" onClick={() => setDrawerOpen(false)}>
             <ListItemText primary="Home" sx={{ color: 'white' }} />
           </ListItem>
           <ListItem button component={Link} to="/favorites" onClick={() => setDrawerOpen(false)}>
@@ -244,9 +244,7 @@ const Navbar = ({ onSearch, toggleMode, mode }) => {
               <ListItem button component={Link} to="/profile" onClick={() => setDrawerOpen(false)}>
                 <ListItemText primary="Profile" sx={{ color: 'white' }} />
               </ListItem>
-              <ListItem button component={Link} to="/settings" onClick={() => setDrawerOpen(false)}>
-                <ListItemText primary="Settings" sx={{ color: 'white' }} />
-              </ListItem>
+              
               <ListItem button onClick={handleLogout}>
                 <ListItemText primary="Logout" sx={{ color: 'white' }} />
               </ListItem>

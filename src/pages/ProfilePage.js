@@ -5,6 +5,7 @@ const ProfilePage = () => {
   const [profile, setProfile] = useState({
     username: '',
     email: '',
+    phone: '',
     password: '',
   });
 
@@ -15,6 +16,7 @@ const ProfilePage = () => {
       setProfile({
         username: storedUser.username || '',
         email: storedUser.email || '',
+        phone: storedUser.phone || '',
         password: storedUser.password || '',
       });
     }
@@ -28,6 +30,7 @@ const ProfilePage = () => {
     const updatedUser = {
       username: profile.username,
       password: profile.password,
+      phone: profile.phone,
       email: profile.email,
     };
     localStorage.setItem('user', JSON.stringify(updatedUser));
@@ -57,6 +60,14 @@ const ProfilePage = () => {
           label="Email"
           name="email"
           value={profile.email}
+          fullWidth
+          margin="normal"
+          onChange={handleChange}
+        />
+        <TextField
+          label="Phone Number"
+          name="phone number"
+          value={profile.phone}
           fullWidth
           margin="normal"
           onChange={handleChange}
